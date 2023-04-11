@@ -3,33 +3,38 @@ import { Button, Form, Segment } from "semantic-ui-react";
 import { IActivity } from "../../../app/models/activity";
 
 interface IProps {
-    activity: IActivity | undefined;
-    closeForm:() => void;
+  activity: IActivity | undefined;
+  closeForm: () => void;
 
-    createOrEdit:(activity: IActivity) => void;
+  createOrEdit: (activity: IActivity) => void;
+
+  submitting: boolean;
 }
 
-export default function ActivityForm({activity: selectedActivity, closeForm, createOrEdit}:IProps) {
-
+export default function ActivityForm({
+  activity: selectedActivity, closeForm, createOrEdit, submitting, }: IProps) {
+    
   const initialState = selectedActivity ?? {
-    id:          '',
-    title:       '',
-    date:        '',
-    description: '',
-    category:    '',
-    city:        '',
-    venue:       ''
-  }
+    id: "",
+    title: "",
+    date: "",
+    description: "",
+    category: "",
+    city: "",
+    venue: "",
+  };
 
   const [activity, setActivity] = useState(initialState);
 
-  function handleSubmit(){
+  function handleSubmit() {
     createOrEdit(activity);
   }
 
-  function handleInputChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>){
-    const {name, value} = event.target;
-    setActivity({...activity, [name]:value})
+  function handleInputChange(
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    const { name, value } = event.target;
+    setActivity({ ...activity, [name]: value });
   }
   return (
     <Segment clearing>
@@ -53,6 +58,7 @@ export default function ActivityForm({activity: selectedActivity, closeForm, cre
           onChange={handleInputChange}
         />
         <Form.Input
+          type="date"
           placeholder="Date"
           value={activity.date}
           name="date"
@@ -70,7 +76,13 @@ export default function ActivityForm({activity: selectedActivity, closeForm, cre
           name="venue"
           onChange={handleInputChange}
         />
-        <Button floated="right" positive type="submit" content="Submit" />
+        <Button
+          loading={submitting}
+          floated="right"
+          positive
+          type="submit"
+          content="Submit"
+        />
         <Button
           onClick={closeForm}
           floated="right"
