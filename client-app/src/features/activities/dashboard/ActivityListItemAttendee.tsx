@@ -18,7 +18,11 @@ export default observer(function ActivityListItemAttendee({
           hoverable
           key={x.username}
           trigger={
-            <List.Item key={x.username} as={Link} to={`/profile/${x.username}`}>
+            <List.Item
+              key={x.username}
+              as={Link}
+              to={`/profiles/${x.username}`}
+            >
               <Image size="mini" circular src={x.image || "/assets/user.png"} />
             </List.Item>
           }

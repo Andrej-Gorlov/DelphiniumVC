@@ -9,7 +9,7 @@ interface IProps {
 
 export default observer(function ProfileCard({ profile }: IProps) {
   return (
-    <Card as={Link} to={`/profile/${profile.username}`}>
+    <Card as={Link} to={`/profiles/${profile.username}`}>
       <Image src={profile.image || "/assets/user.png"} />
       <Card.Content>
         <Card.Header>{profile.image || "/assets/user.png"}</Card.Header>
