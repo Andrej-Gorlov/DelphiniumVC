@@ -9,29 +9,33 @@ import ActivityDetailedInfo from "./ActivityDetailedInfo";
 import ActivityDetailedChat from "./ActivityDetailedChat";
 import ActivityDetailedSidebar from "./ActivityDetailedSidebar";
 
-export default observer (function ActivityDetails() {
+export default observer(function ActivityDetails() {
+  const { activityStore } = useStore();
+  const {
+    selectedActivity: activity,
+    loadActivity,
+    loadingInitial,
+    clearSelectedActivity,
+  } = activityStore;
+  const { id } = useParams();
 
-  const {activityStore} = useStore();
-  const {selectedActivity:activity, loadActivity, loadingInitial} = activityStore;
-  const {id} = useParams();
+  useEffect(() => {
+    if (id) loadActivity(id);
+    return () => clearSelectedActivity();
+  }, [id, loadActivity, clearSelectedActivity]);
 
-  useEffect(()=>{
-    if(id) loadActivity(id);
-  },[id,loadActivity])
-
-  if (loadingInitial || !activity) return <LoadingComponent/>;
+  if (loadingInitial || !activity) return <LoadingComponent />;
 
   return (
-   <Grid>
+    <Grid>
       <Grid.Column width={10}>
-        <ActivityDetailedHeader activity={activity}/>
-        <ActivityDetailedInfo activity={activity}/>
-        <ActivityDetailedChat/>
+        <ActivityDetailedHeader activity={activity} />
+        <ActivityDetailedInfo activity={activity} />
+        <ActivityDetailedChat activityId={activity.id} />
       </Grid.Column>
       <Grid.Column width={6}>
-        <ActivityDetailedSidebar activity={activity}/>
+        <ActivityDetailedSidebar activity={activity} />
       </Grid.Column>
-   </Grid>
+    </Grid>
   );
-}
-)
+});
