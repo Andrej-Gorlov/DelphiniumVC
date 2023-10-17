@@ -8,12 +8,17 @@ interface IProps {
 }
 
 export default observer(function ProfileCard({ profile }: IProps) {
+  function truncate(str: string | undefined) {
+    if (str) {
+      return str.length > 40 ? str.substring(0, 38) + "..." : str;
+    }
+  }
   return (
     <Card as={Link} to={`/profiles/${profile.username}`}>
       <Image src={profile.image || "/assets/user.png"} />
       <Card.Content>
-        <Card.Header>{profile.image || "/assets/user.png"}</Card.Header>
-        <Card.Description>Bio goes here</Card.Description>
+        <Card.Header>{profile.displayName}</Card.Header>
+        <Card.Description>{truncate(profile.bio)}</Card.Description>
       </Card.Content>
       <Card.Content>
         <Icon name="user" />

@@ -30,7 +30,7 @@ export default class ProfileStore {
         this.loadingProfile = false;
       });
     } catch (error) {
-      toast.error('Problem loading profile');
+      toast.error("Problem loading profile");
       runInAction(() => {
         this.loadingProfile = false;
       });
@@ -92,6 +92,26 @@ export default class ProfileStore {
     } catch (error) {
       toast.error("Problem deleting photo");
       this.loading = false;
+    }
+  };
+
+  updateProfile = async (profile: Partial<IProfile>) => {
+    this.loading = true;
+    try {
+      await agent.Profiles.updateProfile(profile);
+      runInAction(() => {
+        if (
+          profile.displayName &&
+          profile.displayName !== store.userStore.user?.displayName
+        ) {
+          store.userStore.setDisplayName(profile.displayName);
+        }
+        this.profile = { ...this.profile, ...(profile as IProfile) };
+        this.loading = false;
+      });
+    } catch (error) {
+      console.log(error);
+      runInAction(() => (this.loading = false));
     }
   };
 }
