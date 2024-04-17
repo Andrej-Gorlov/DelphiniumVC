@@ -11,6 +11,10 @@ interface IPrpos {
 export default observer(function ActivityListItemAttendee({
   attendees,
 }: IPrpos) {
+  const styles = {
+    borderColor: 'orange',
+    borderWidth: 3
+  }
   return (
     <List horizontal>
       {attendees.map((x) => (
@@ -23,7 +27,11 @@ export default observer(function ActivityListItemAttendee({
               as={Link}
               to={`/profiles/${x.username}`}
             >
-              <Image size="mini" circular src={x.image || "/assets/user.png"} />
+              <Image size='mini'
+                style={x.following ? styles : null}
+                bordered
+                circular
+                src={x.image || `/assets/user.png`} />
             </List.Item>
           }
         >
