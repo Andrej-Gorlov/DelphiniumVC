@@ -4,7 +4,7 @@ import { ActivityFormValues, IActivity } from '../models/activity';
 import { router } from '../router/Routes';
 import { store } from '../stores/store';
 import { IUser, IUserFormValues } from '../models/user';
-import { IPhoto, IProfile } from '../models/profile';
+import { IPhoto, IProfile, IUserActivity } from '../models/profile';
 import { PaginatedResult } from '../models/pagination';
 
 const sleep = (delay: number) => {
@@ -107,7 +107,9 @@ const Profiles ={
     updateProfile: (profile: Partial<IProfile>) => requests.put('/profiles',profile),
     updateFollowing:(username:string) => requests.post(`/follow/${username}`, {}),
     listFollowings:(username:string, predicate: string) => requests
-        .get<IProfile[]>(`/follow/${username}?predicate=${predicate}`)
+        .get<IProfile[]>(`/follow/${username}?predicate=${predicate}`),
+    listActivities: (username: string, predicate: string) =>
+        requests.get<IUserActivity[]>(`/profiles/${username}/activities?predicate=${predicate}`)
 }
 
 const agent = {
